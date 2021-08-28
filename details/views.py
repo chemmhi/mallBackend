@@ -6,10 +6,12 @@ class GetDetails(View):
     def get(self,request):
         iid = request.GET.get('iid')
         obj = Details.objects.filter(iid = iid).values('goods')
-        response = HttpResponse(obj[0]['goods'])
-        response['Access-Control-Allow-Origin'] = '*'
-        return response
-
+        if (len(obj) != 0):
+            response = HttpResponse(obj[0]['goods'])
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
+        else:
+            return {}
 class GetRecommend(View):
     def get(self, request):
         obj = Redommend.objects.filter(id=1).values('recommend')

@@ -6,4 +6,5 @@ urlpatterns = [
     # path('home/data/', views.GetHomeData.as_view()),
     # path('home/multidata/', views.GetHomeMultidata.as_view()),
     # path('recommend/', views.GetRecommend.as_view()),
+    path('category/', views.GetCategory.as_view()),
 ]

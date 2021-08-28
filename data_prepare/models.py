@@ -17,3 +17,16 @@ class Details(models.Model):
 
 class Redommend(models.Model):
     recommend = models.JSONField()
+
+
+class Category(models.Model):
+    category = models.JSONField()
+
+class Subcategory(models.Model):
+    subcategory = models.JSONField()
+    maitKey = models.CharField(max_length=15)
+
+class SubcategoryDetail(models.Model):
+    miniWallkey = models.CharField(max_length=20)
+    type = models.CharField(max_length=15)
+    details = models.JSONField()
