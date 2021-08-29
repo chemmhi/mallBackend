@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from details import views as views_get_details
 from category import views as views_category
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', include('home.urls')),
@@ -26,4 +27,5 @@ urlpatterns = [
     re_path('subcategory/$', views_category.GetSubcategory.as_view()),
     path('subcategory/detail/', views_category.GetSubcategoryDetail.as_view()),
     path('data_prepare/', include('data_prepare.urls')),
+    path('user/', include('user_info.urls')),
 ]
