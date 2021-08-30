@@ -9,4 +9,4 @@ class UserInfo(models.Model):
     coupon = models.IntegerField(null=True)
     coinPoint = models.IntegerField(null=True)
     message = models.CharField(max_length=100, null=True)
-    cart = models.JSONField()
+    cart = models.JSONField(null=True)

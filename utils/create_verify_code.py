@@ -11,7 +11,7 @@ class CreateVerifyCode():
                         fg_color=(0,0,255),
                         bg_color=(255,255,255),
                         n_line=(1,2),
-                        draw_dot=True,
+                        draw_dot=False,
                  ):
         self.size = size,
         self.font_type = font_type
