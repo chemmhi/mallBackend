@@ -55,7 +55,11 @@ class Register(View):
             userInfo['userName'] = obj['userName']
             userInfo['phoneNumber'] = obj['registerPhoneNum']
             userInfo['password'] = obj['pwd1']
-            UserInfo.objects.create(*userInfo)
+            UserInfo.objects.create(
+                userName = obj['userName'],
+                password= obj['pwd1'],
+                phoneNumber= obj['registerPhoneNum'],
+            )
             res['status'] = True
         else:
             res['status'] = False
