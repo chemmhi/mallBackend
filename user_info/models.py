@@ -10,3 +10,4 @@ class UserInfo(models.Model):
     coinPoint = models.IntegerField(null=True)
     message = models.CharField(max_length=100, null=True)
     cart = models.JSONField(null=True)
+    sessionId = models.CharField(max_length=100,null=True)
