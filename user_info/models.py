@@ -11,3 +11,4 @@ class UserInfo(models.Model):
     message = models.CharField(max_length=100, null=True)
     cart = models.JSONField(null=True)
     sessionId = models.CharField(max_length=100,null=True)
+    profileImgUrl = models.CharField(max_length=100,null=True)

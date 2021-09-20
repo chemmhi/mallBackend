@@ -5,6 +5,7 @@ from utils.create_verify_code import CreateVerifyCode
 from user_info.models import UserInfo
 import json
 import hashlib,time
+import re
 # Create your views here.
 CHECK_CODE = ['']
 class VerifyCode(View):
@@ -59,7 +60,7 @@ class Login(View):
         response['Access-Control-Allow-Headers'] = 'Content-Type,X-Request-With,Access-Control-Allow-Origin'
         return response
 
-class getDetails(View):
+class GetDetails(View):
     def get(self, request):
         # userName = request.GET.get('userName')
         # user = UserInfo.objects.filter(userName=userName).values()[0]
@@ -147,3 +148,30 @@ class UpdateCart(View):
         response = HttpResponse(json.dumps('200'))
         response['Access-Control-Allow-Origin'] = '*'
         return response
+from django.utils.datastructures import MultiValueDict
+class PutProfileImg(View):
+    def post(self,request):
+        img = request.FILES.get('image')
+        userName = request.POST.get('userName')
+        imgReG = re.compile('\.([a-zA-Z]+$)')
+        imgext = imgReG.search(img.name).group(1)
+        imgPath = f'static/profile/img/{userName}.profile.{imgext}'
+        with open(imgPath, mode='wb') as f:
+            for chunk in img.chunks():
+                f.write(chunk)
+        UserInfo.objects.filter(userName=userName).update(profileImgUrl=imgPath)
+        response = HttpResponse(imgPath)
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
+
+'''
+file = request.FILES.get(“key”)
+
+file 常见的方法有那些？
+read() : 把文件读取并放入一个 流中，是一次性读取完成，适合于小图片
+chunks() : 以块的方式读取一个文件，适合于 大文件的读取
+file 常见的属性有哪些？
+name : 文件名
+size : 文件大小
+content_type : 文件类型
+'''
