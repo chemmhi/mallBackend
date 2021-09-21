@@ -7,18 +7,20 @@ import json
 import hashlib,time
 import re
 # Create your views here.
-CHECK_CODE = ['']
+PATH = 'static/code.txt'
 class VerifyCode(View):
     def get(self, request):
         code = CreateVerifyCode()
         img, code = code.start()
-        CHECK_CODE[0] = code
+        with open (PATH, 'w') as fp:
+            fp.write(code)
         stream = BytesIO()
         img.save(stream, "JPEG")
         response = HttpResponse(stream.getvalue())
         response['Access-Control-Allow-Origin'] = '*'
         response['Content-Type'] = 'image/jpeg'
         response['Cache-Control'] = 'no-store, max-age=0'
+        # print(stream.getvalue())
         print(code)
         return response
 
@@ -31,7 +33,9 @@ class Login(View):
         loginCode = form.get('loginCode')
         freeLogin = form.get('freeLogin')
         user = UserInfo.objects.filter(userName=userName).values()[0]
-        if loginCode.lower() == CHECK_CODE[0].lower():
+        with open(PATH,'r') as fp:
+            CHECK_CODE = fp.read()
+        if loginCode.lower() == CHECK_CODE.lower():
             if password == user['password']:   #验证码和密码都验证成功
                 del user['password']
                 del user['sessionId']
@@ -98,7 +102,9 @@ class Register(View):
         userInfo = {}
         res = {}
         obj = json.loads(request.body.decode('utf-8'))
-        if obj['registerCode'].lower() == CHECK_CODE[0].lower():
+        with open(PATH, 'r') as fp:
+            CHECK_CODE = fp.read()
+        if obj['registerCode'].lower() == CHECK_CODE.lower():
             userInfo['userName'] = obj['userName']
             userInfo['phoneNumber'] = obj['registerPhoneNum']
             userInfo['password'] = obj['pwd1']
@@ -134,7 +140,9 @@ class Validation(View):
 
 class GetVerifycode(View):
     def get(self,rq):
-        response = HttpResponse(CHECK_CODE[0])
+        with open(PATH, 'r') as fp:
+            CHECK_CODE = fp.read()
+        response = HttpResponse(CHECK_CODE)
         response['Access-Control-Allow-Origin'] = '*'
         return response
 
